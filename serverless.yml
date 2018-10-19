@@ -1,0 +1,46 @@
+service: alexaPOC
+
+provider:
+   name: aws
+   runtime: nodejs8.10
+   region: us-west-1
+   stage: dev
+
+functions:
+   
+   name: request-or-auth-service
+   description: handle user request, verify if user is authenticated if not prompt for passcode else provide the service
+   role: lambdaRequestService
+   handler: request-or-auth-service.RequestService
+
+   name: forgot-password-handle
+   description: handle forgot password request, generate a random passcode and update DB, email the same to user
+   role: lambdaForgotPassword
+   handler: forgot-password-handle.ForgotPassword
+    
+resources:
+  Resources:
+    lambdaRequestService:
+      Type: AWS::IAM::Role
+      Properties:
+        Path: /lambda/request
+        RoleName: lambdaRequestService
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement: 
+             - Effect: Allow
+              Principal: 
+                 Service: 
+                   -lambda.amazonaws.com
+              Action: sts:AssumeRole  
+
+        Policies: 
+          - PolicyName: lambdaRequestServiceRole
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                 - Effect: Allow
+                   Action:
+                     - dynamodb:GetItem
+                     - dynamodb:PutItem
+                  Resource: arn:aws:dynamodb:us-east-1:12345678910:table/UserData
