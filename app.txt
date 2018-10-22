@@ -1,0 +1,65 @@
+const bcrypt = require('bcryptjs');
+const alexa = require('ask-sdk');
+const aws = require('aws-sdk');
+aws.config.update({
+    region: 'us-east-1'
+});
+
+const buildskill = alexa.SkillBuilders.standard();
+
+const SayHelloIntent = {
+    canHandle(input){
+        let req = input.requestEnvelope.request;
+        return (req.intent.type===IntentRequest && request.intent.name===SayHelloIntent);
+    },
+
+    handle(input){
+        let request = event.request;
+        let ph = request.intent.slots.phoneNumber.value;
+        const response = {
+            version: "1.0",
+            response: {
+            outputSpeech: {
+              type: "SSML",
+              ssml: `<speak>Hello <say-as interpret-as="digits"> ${fetchUser(ph)} </say-as> ${greet()} </speak>`
+           }
+       }
+    }
+
+    input.responseBuilder.speak(response).getResponse();
+ }
+}//sayhello
+
+// const ErrorHandlerIntent = {
+//     handle(){
+//         return "Error";
+//     }
+// }
+
+buildskill.addRequestHandlers(
+    SayHelloIntent
+).lambda();
+
+function greet(){
+    let myDate = new Date();
+    let hours = myDate.getUTCHours()+5.5;
+    switch(hours)
+    {
+         case (hours>=12 && hours <16):
+            return "Good Afternoon!";
+
+        case (hours<12 && hours>5):
+            return "Good Morning!";
+
+        case (hours>=16 && hours<=19):
+            return "Good Evening";
+
+        default:
+            return "Good Day!";
+    }
+}
+
+function fetchUser(param){
+    return param;
+}
+
