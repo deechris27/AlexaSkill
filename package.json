@@ -1,0 +1,25 @@
+{
+  "name": "alexa_poc",
+  "version": "1.0.0",
+  "description": "alexa skill ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deechris27/testAlexa.git"
+  },
+  "dependencies": {
+    "bcryptjs": "*",
+    "aws-sdk": "*",
+    "ask-sdk": "*"
+  },
+  "author": "me",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/deechris27/testAlexa/issues"
+  },
+  "homepage": "https://github.com/deechris27/testAlexa#readme"
+}
